@@ -1,0 +1,2 @@
+config:
+  pulumi_ts:motd: "Welcome to Pulumi!"
