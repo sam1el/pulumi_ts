@@ -3,4 +3,4 @@ description: A TypeScript program to deploy a containerized service on AWS
 runtime:
   name: nodejs
   options:
-    packagemanager: npms
+    packagemanager: npm
