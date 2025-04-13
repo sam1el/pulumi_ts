@@ -54,6 +54,15 @@ The application uses Pulumi configuration to define deployment parameters. These
 
 The application is a simple Node.js web server built with Express. It responds with a "Hello World" message and the `MOTD` (Message of the Day) environment variable. The source code for the application is located in the `app/` directory.
 
+To modify the MOTD messaege, update the `MOTD` environment variable in the `Pulumi.dev.yaml` configuration file. 
+
+```bash
+pulumi config set motd "Your new message here"
+```
+
+After updating the configuration, run `pulumi up` again to redeploy the application with the new message.
+The application will automatically reflect the changes upon redeployment.
+
 ### File Structure
 
 - [`index.ts`](index.ts): Defines the Pulumi infrastructure.
