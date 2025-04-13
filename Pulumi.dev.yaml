@@ -1,0 +1,5 @@
+config:
+  aws:region: us-west-2
+  pulumi_ts:containerPort: "80"
+  pulumi_ts:cpu: "1024"
+  pulumi_ts:memory: "2048"
