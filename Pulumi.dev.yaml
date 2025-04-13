@@ -1,5 +1,6 @@
 config:
   aws:region: us-west-2
   pulumi_ts:containerPort: "80"
-  pulumi_ts:cpu: "1024"
-  pulumi_ts:memory: "2048"
+  pulumi_ts:cpu: "512"
+  pulumi_ts:memory: "128"
+  pulumi_ts:motd: "iD10+ error"
