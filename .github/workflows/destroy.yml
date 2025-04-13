@@ -1,9 +1,9 @@
 name: Pulumi
 on:
-  - pull_request
+  workflow_dispatch:
 jobs:
-  preview:
-    name: Preview
+  update:
+    name: Update
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
       - run: npm install
       - uses: pulumi/actions@v6
         with:
-          command: preview
+          command: destroy
           stack-name: dev # When using an individual account, only use stack-name.
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
