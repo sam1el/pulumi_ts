@@ -1,4 +1,4 @@
-name: Pulumi
+name: Pulumi destroy
 on:
   workflow_dispatch:
 jobs:
