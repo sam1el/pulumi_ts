@@ -25,6 +25,12 @@ jobs:
           curl -fsSL https://get.pulumi.com | sh
           export PATH=$PATH:$HOME/.pulumi/bin
 
+      - name: Login to Pulumi
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        run: |
+          pulumi login
+
       - name: Extract MOTD from Issue Body
         id: extract-motd
         if: contains(github.event.label.name, 'update-motd')
