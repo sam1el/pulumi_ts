@@ -79,3 +79,16 @@ jobs:
               workflow_id: "destroy.yml",
               ref: "main"
             });
+
+      - name: Comment on the Issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+            const commentBody = "The workflow has completed successfully!";
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: commentBody,
+            });

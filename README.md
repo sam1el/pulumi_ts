@@ -33,28 +33,28 @@ The application uses Pulumi configuration to define deployment parameters. These
 
 ## Deployment Steps
 
-1. **Install Dependencies**  
+1. **Install Dependencies**
    Run the following command to install the required dependencies:
 
    ```bash
    npm install
    ```
 
-2. **Build and Deploy**  
+2. **Build and Deploy**
    Use Pulumi to deploy the infrastructure:
 
    ```bash
    pulumi up
    ```
 
-3. **Access the Application**  
+3. **Access the Application**
    After deployment, Pulumi will output the URL of the application. Open the URL in your browser to access the web app.
 
 ## Application Details
 
 The application is a simple Node.js web server built with Express. It responds with a "Hello World" message and the `MOTD` (Message of the Day) environment variable. The source code for the application is located in the `app/` directory.
 
-To modify the MOTD messaege, update the `MOTD` environment variable in the `Pulumi.dev.yaml` configuration file. 
+To modify the MOTD messaege, update the `MOTD` environment variable in the `Pulumi.dev.yaml` configuration file.
 
 ```bash
 pulumi config set motd "Your new message here"
@@ -83,3 +83,11 @@ This will delete the ECS cluster, ALB, ECR repository, and any other resources p
 ## Extra-credit
 
 In the .github/workflows directory, you can find a GitHub Actions workflow that automatically builds and deploys the application to AWS whenever changes are pushed to the main branch. This CI/CD pipeline uses Pulumi to manage the infrastructure as code.
+
+## Extra Extra-credit (dev stack)
+
+- The application is also configured for self-service from this repository. You can deploy the application to your own AWS account by forking this repository and following the deployment steps above. The GitHub Actions workflow will automatically build and deploy the application to your AWS account whenever changes are pushed to the main branch of your forked repository. You will need to set up your AWS credentials in the GitHub repository secrets for the workflow to work.
+
+- The secrets should be named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`. You can find instructions on how to set up GitHub secrets [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets).You will also need to set up the `AWS_REGION` secret to specify the AWS region where you want to deploy the application. The default region is `us-west-2`, but you can change it to any other region supported by AWS. You can find a list of supported regions [here](https://docs.aws.amazon.com/general/latest/gr/rande.html). Once you have set up the secrets, you can push changes to your forked repository and the workflow will automatically build and deploy the application to your AWS account. Your pulumi credentials will be used to authenticate with AWS and deploy the application. You can find more information about how to set up Pulumi credentials [here](https://www.pulumi.com/docs/intro/concepts/credentials/). you will need to configure your pulumi credentials in the actions workflow. You can do this by adding the `PULUMI_ACCESS_TOKEN` secret to your GitHub repository secrets. You can find instructions on how to set up GitHub secrets [here](https://docs.github.com/en/actions/security-guides/encrypted-secrets). The `PULUMI_ACCESS_TOKEN` secret should contain your Pulumi access token, which you can generate from the Pulumi console. You can find more information about how to generate a Pulumi access token [here](https://www.pulumi.com/docs/intro/concepts/credentials/#access-tokens).
+
+- The workflow will automatically build the Docker image from the `app/` directory and push it to the ECR repository created by Pulumi. The workflow will also deploy the application to AWS Fargate with the specified configuration. You can find more information about how to use GitHub Actions with Pulumi [here](https://www.pulumi.com/docs/guides/continuous-delivery/github-actions/).
