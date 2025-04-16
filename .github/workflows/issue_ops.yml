@@ -70,7 +70,7 @@ jobs:
           git push
 
       - name: Trigger Push Workflow
-        if: contains(github.event.label.name, 'deploy')
+        if: contains(github.event.label.name, 'update-motd') || contains(github.event.label.name, 'deploy')
         uses: actions/github-script@v6
         with:
           script: |
