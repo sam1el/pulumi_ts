@@ -40,9 +40,9 @@ jobs:
         if: contains(github.event.label.name, 'update-motd')
         run: |
           echo "Extracting MOTD from issue title..."
-          MOTD=$(echo "${{ github.event.issue.title }}" | sed -n 's/^Update MOTD: //p')
+          MOTD=$(echo "${{ github.event.issue.title }}" | sed -n 's/^Update MOTD: //p' | sed 's/^[ \t]*//;s/[ \t]*$//')
           if [ -z "$MOTD" ]; then
-            echo "Error: MOTD not found in issue title. Ensure the issue title starts with 'Update MOTD: '."
+            echo "Error: MOTD not found in issue title. Ensure the issue title starts with 'Update MOTD: ' and includes a message."
             exit 1
           fi
           echo "Extracted MOTD: $MOTD"
