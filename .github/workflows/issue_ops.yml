@@ -40,11 +40,12 @@ jobs:
         if: contains(github.event.label.name, 'update-motd')
         run: |
           echo "Extracting MOTD from issue body..."
-          MOTD=$(echo "${{ github.event.issue.body }}" | awk '/^### MOTD/{getline; print}')
+          MOTD=$(echo "${{ github.event.issue.body }}" | awk '/^### MOTD/{getline; gsub(/^[ \t]+|[ \t]+$/, ""); print}')
           if [ -z "$MOTD" ]; then
             echo "Error: MOTD not found in issue body. Ensure the issue body contains the MOTD value under '### MOTD'."
             exit 1
           fi
+          echo "Extracted MOTD: $MOTD"
           echo "motd=$MOTD" >> $GITHUB_ENV
 
       - name: Update MOTD using Pulumi CLI
