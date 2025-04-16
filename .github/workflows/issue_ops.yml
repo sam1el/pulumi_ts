@@ -31,6 +31,10 @@ jobs:
         run: |
           pulumi login
 
+      - name: Select Pulumi Stack
+        run: |
+          pulumi stack select dev
+
       - name: Extract MOTD from Issue Body
         id: extract-motd
         if: contains(github.event.label.name, 'update-motd')
@@ -54,9 +58,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { Octokit } = require("@octokit/rest");
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            await octokit.actions.createWorkflowDispatch({
+            await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "push.yml",
@@ -68,9 +70,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { Octokit } = require("@octokit/rest");
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            await octokit.actions.createWorkflowDispatch({
+            await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "destroy.yml",
