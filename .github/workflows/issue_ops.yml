@@ -40,7 +40,11 @@ jobs:
         if: contains(github.event.label.name, 'update-motd')
         run: |
           echo "Extracting MOTD from issue body..."
-          MOTD=$(echo "${{ github.event.issue.body }}" | grep '^MOTD:' | sed 's/^MOTD: //')
+          MOTD=$(echo "${{ github.event.issue.body }}" | sed -n 's/^MOTD: //p')
+          if [ -z "$MOTD" ]; then
+            echo "Error: MOTD not found in issue body."
+            exit 1
+          fi
           echo "motd=$MOTD" >> $GITHUB_ENV
 
       - name: Update MOTD using Pulumi CLI
@@ -48,7 +52,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pulumi config set motd "$MOTD" --cwd .
+          echo "Updating MOTD using Pulumi CLI..."
+          echo "MOTD: $MOTD"
+          pulumi config set pulumi_ts:motd "$MOTD" --cwd .
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
@@ -61,6 +67,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            console.log("Triggering push.yml workflow...");
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
