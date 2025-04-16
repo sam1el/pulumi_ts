@@ -1,12 +1,13 @@
 name: Update MOTD
 description: Use this template to update the MOTD setting in Pulumi.dev.yaml
-title: "[Update MOTD] "
+title: "Update MOTD: <your-message>"
 labels: ["update-motd"]
 body:
   - type: markdown
     attributes:
       value: |
-        Please provide the new MOTD value below.
+        Please ensure the issue title follows this format: `Update MOTD: <your-message>`.
+        Replace `<your-message>` with the new MOTD value you want to set.
 
   - type: input
     id: motd

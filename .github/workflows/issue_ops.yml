@@ -35,14 +35,14 @@ jobs:
         run: |
           pulumi stack select dev
 
-      - name: Extract MOTD from Issue Body
+      - name: Extract MOTD from Issue Title
         id: extract-motd
         if: contains(github.event.label.name, 'update-motd')
         run: |
-          echo "Extracting MOTD from issue body..."
-          MOTD=$(echo "${{ github.event.issue.body }}" | awk '/^### MOTD/{getline; gsub(/^[ \t]+|[ \t]+$/, ""); print}')
+          echo "Extracting MOTD from issue title..."
+          MOTD=$(echo "${{ github.event.issue.title }}" | sed -n 's/^Update MOTD: //p')
           if [ -z "$MOTD" ]; then
-            echo "Error: MOTD not found in issue body. Ensure the issue body contains the MOTD value under '### MOTD'."
+            echo "Error: MOTD not found in issue title. Ensure the issue title starts with 'Update MOTD: '."
             exit 1
           fi
           echo "Extracted MOTD: $MOTD"
