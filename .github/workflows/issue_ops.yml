@@ -40,9 +40,9 @@ jobs:
         if: contains(github.event.label.name, 'update-motd')
         run: |
           echo "Extracting MOTD from issue body..."
-          MOTD=$(echo "${{ github.event.issue.body }}" | sed -n 's/^### MOTD\n//p')
+          MOTD=$(echo "${{ github.event.issue.body }}" | awk '/^### MOTD/{getline; print}')
           if [ -z "$MOTD" ]; then
-            echo "Error: MOTD not found in issue body. Ensure the issue body contains the MOTD value."
+            echo "Error: MOTD not found in issue body. Ensure the issue body contains the MOTD value under '### MOTD'."
             exit 1
           fi
           echo "motd=$MOTD" >> $GITHUB_ENV
