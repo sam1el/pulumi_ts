@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "Updating MOTD using Pulumi CLI..."
           echo "MOTD: $MOTD"
-          pulumi config set pulumi_ts:motd "$MOTD" --cwd .
+          pulumi config set motd "$MOTD" --cwd .
           echo "Contents of Pulumi.dev.yaml after pulumi config set:"
           cat Pulumi.dev.yaml
           git config --global user.name "github-actions[bot]"
