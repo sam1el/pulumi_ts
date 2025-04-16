@@ -58,15 +58,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Updating MOTD using Pulumi CLI..."
-          echo "MOTD: $MOTD"
-          pulumi config set pulumi_ts:motd "$MOTD" --cwd .
+          echo "MOTD: ${{ env.motd }}"
+          pulumi config set pulumi_ts:motd "${{ env.motd }}" --cwd .
           echo "Contents of Pulumi.dev.yaml after pulumi config set:"
           cat Pulumi.dev.yaml
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
           git add Pulumi.dev.yaml
-          git commit -m "Update MOTD to $MOTD"
+          git commit -m "Update MOTD to ${{ env.motd }}"
           git push
 
       - name: Trigger Push Workflow
