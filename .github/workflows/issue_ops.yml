@@ -1,0 +1,78 @@
+name: Issue Operations
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - labeled
+
+jobs:
+  handle-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Pulumi CLI
+        run: |
+          curl -fsSL https://get.pulumi.com | sh
+          export PATH=$PATH:$HOME/.pulumi/bin
+
+      - name: Login to Pulumi
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        run: |
+          pulumi login
+
+      - name: Extract MOTD from Issue Body
+        id: extract-motd
+        if: contains(github.event.label.name, 'update-motd')
+        run: |
+          echo "Extracting MOTD from issue body..."
+          MOTD=$(echo "${{ github.event.issue.body }}" | grep '^MOTD:' | sed 's/^MOTD: //')
+          echo "motd=$MOTD" >> $GITHUB_ENV
+
+      - name: Update MOTD using Pulumi CLI
+        if: contains(github.event.label.name, 'update-motd')
+        run: |
+          pulumi config set motd "$MOTD" --cwd .
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Pulumi.dev.yaml
+          git commit -m "Update MOTD to $MOTD"
+          git push
+
+      - name: Trigger Push Workflow
+        if: contains(github.event.label.name, 'deploy')
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { Octokit } = require("@octokit/rest");
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+            await octokit.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "push.yml",
+              ref: "main"
+            });
+
+      - name: Trigger Destroy Workflow
+        if: contains(github.event.label.name, 'destroy')
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { Octokit } = require("@octokit/rest");
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+            await octokit.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "destroy.yml",
+              ref: "main"
+            });
