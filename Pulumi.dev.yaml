@@ -3,4 +3,4 @@ config:
   pulumi_ts:containerPort: "80"
   pulumi_ts:cpu: "512"
   pulumi_ts:memory: "128"
-  pulumi_ts:motd: ""
+  pulumi_ts:motd: "Show me the money!"
