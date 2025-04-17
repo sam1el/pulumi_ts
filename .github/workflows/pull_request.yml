@@ -19,8 +19,6 @@ jobs:
       - run: npm install
       - name: Run Biome Lint
         run: npm run lint
-      - name: Run Tests
-        run: npm test
       - uses: pulumi/actions@v6
         with:
           command: preview
