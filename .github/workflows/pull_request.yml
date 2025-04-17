@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '23'
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -19,6 +19,8 @@ jobs:
       - run: npm install
       - name: Run Biome Lint
         run: npm run lint
+      - name: Run Tests
+        run: npm test
       - uses: pulumi/actions@v6
         with:
           command: preview
