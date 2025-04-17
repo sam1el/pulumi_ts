@@ -16,7 +16,7 @@
         "mocha": "^11.1.0"
     },
     "scripts": {
-        "test": "mocha --require ts-node/register --recursive __tests__/**/*.test.ts",
+        "test": "mocha --require ts-node/register --recursive __tests__/*.test.ts",
         "lint": "biome check index.ts",
         "format": "biome format ."
     }
