@@ -1,12 +1,23 @@
 {
     "name": "pulumi_ts",
+    "type": "module",
     "devDependencies": {
+        "@biomejs/biome": "1.9.4",
+        "@types/mocha": "^10.0.10",
         "@types/node": "^18",
+        "ts-node": "^10.9.2",
         "typescript": "^5.0.0"
     },
     "dependencies": {
-        "@pulumi/aws": "^6.0.0",
-        "@pulumi/awsx": "^2.0.2",
-        "@pulumi/pulumi": "^3.113.0"
+        "@pulumi/aws": "^6.77.0",
+        "@pulumi/awsx": "^2.21.1",
+        "@pulumi/pulumi": "^3.163.0",
+        "chai": "^5.2.0",
+        "mocha": "^11.1.0"
+    },
+    "scripts": {
+        "test": "mocha --require ts-node/register --recursive __tests__/**/*.test.ts",
+        "lint": "biome check index.ts",
+        "format": "biome format ."
     }
 }
