@@ -2,5 +2,5 @@ config:
   aws:region: us-west-2
   pulumi_ts:containerPort: "80"
   pulumi_ts:cpu: "512"
-  pulumi_ts:memory: "128"
-  pulumi_ts:motd: "This should work now!"
+  pulumi_ts:memory: "1024"
+  pulumi_ts:motd: "Here is a new message!!"
