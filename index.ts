@@ -188,3 +188,4 @@ const service = new aws.ecs.Service("app-service", {
 
 // Export the DNS name of the load balancer
 export const url = pulumi.interpolate`http://${alb.dnsName}`;
+
